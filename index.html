@@ -1,0 +1,1381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <title>Nubie | Premium Baby Care Essentials</title>
+  
+  <!-- Preconnect and Load Fonts: Playfair Display & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@800&display=block" rel="stylesheet">
+  
+  <link rel="stylesheet" href="styles.css">
+  
+  <!-- Hero Inline CSS (Critical for performance and preventing layout shifts) -->
+  <style>
+    /* Add inline critical here once hero structure is complete */
+  </style>
+</head>
+<body style="overflow: hidden;"> 
+  <!-- Premium Nubie Intro Loader --> 
+  <div id="nubie-intro" aria-hidden="false" role="status" aria-live="polite" style="position:fixed;top:0;left:0;right:0;bottom:0;display:flex;display:-webkit-flex;align-items:center;-webkit-align-items:center;justify-content:center;-webkit-justify-content:center;background:#FFFFFF;z-index:99999;-webkit-backdrop-filter:blur(0px);backdrop-filter:blur(0px);-webkit-transform:translateZ(0);transform:translateZ(0);"> 
+    <div style="text-align:center;max-width:680px;width:88%;padding:24px;"> 
+      <!-- Logo --> 
+      <div id="nubie-intro-logo" style="display:inline-block;-webkit-transform:translateY(8px) scale(.98);transform:translateY(8px) scale(.98);opacity:0;"> 
+        <img src="Images/NUBIE.jpg" alt="Nubie Logo" style="width: 200px; height: auto; mix-blend-mode: multiply;" />
+      </div>
+      <div style="height:28px"></div>
+
+      <!-- Loader bar -->
+      <div id="nubie-intro-loader-bar" aria-hidden="true" style="margin:0 auto;width:44%;min-width:220px;max-width:520px;">
+        <div style="height:6px;background:rgba(208,241,230,0.12);border-radius:999px;overflow:hidden;position:relative;">
+          <div id="nubie-intro-progress" style="width:0%;height:100%;background:linear-gradient(90deg,#F18D7B,#F06F5A);border-radius:999px;box-shadow:0 6px 18px rgba(18,18,18,0.04);transform-origin:left;"></div>
+          <div id="nubie-intro-shimmer" style="position:absolute;top:0;left:0;right:0;bottom:0;pointer-events:none;background:-webkit-linear-gradient(left,rgba(255,255,255,0.0) 0%,rgba(255,255,255,0.18) 50%,rgba(255,255,255,0.0) 100%);background:linear-gradient(90deg,rgba(255,255,255,0.0) 0%,rgba(255,255,255,0.18) 50%,rgba(255,255,255,0.0) 100%);-webkit-transform:translateX(-120%);transform:translateX(-120%);opacity:0.65;"></div>
+        </div>
+        <div style="height:12px"></div>
+        <div style="font-family:Inter, sans-serif;font-size:14px;color:#6E6E6E;letter-spacing:0.2px;" id="nubie-intro-copy">Discover pure, pediatrician-approved care for your little one...</div>
+      </div>
+    </div> 
+  </div> 
+  <script> 
+    (function(){ 
+      const intro = document.getElementById('nubie-intro'); 
+      const logo = document.getElementById('nubie-intro-logo'); 
+      const progress = document.getElementById('nubie-intro-progress'); 
+      const shimmer = document.getElementById('nubie-intro-shimmer'); 
+      const loaderBar = document.getElementById('nubie-intro-loader-bar');
+      const PREFS_REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches; 
+
+      const firstVisitKey = 'nubie_intro_shown_v1'; 
+      // const alreadyShown = localStorage.getItem(firstVisitKey); 
+      const showFullIntro = true; // Temporary: always show 5s loader for testing
+      
+      let start = performance.now(); 
+
+      if (!showFullIntro) {
+        loaderBar.style.display = 'none';
+        if (!PREFS_REDUCED) {
+          logo.animate([
+            {opacity:0, transform:'translateY(4px) scale(0.98)'},
+            {opacity:1, transform:'translateY(0) scale(1)', offset:0.3},
+            {opacity:1, transform:'translateY(0) scale(1)', offset:0.7},
+            {opacity:0, transform:'scale(1.02)'}
+          ], {duration: 600, easing:'ease', fill:'forwards'}).onfinish = () => {
+            intro.remove();
+            document.body.style.overflow = '';
+            document.documentElement.dispatchEvent(new Event('nubieIntroFinished'));
+          };
+        } else {
+          intro.remove();
+          document.body.style.overflow = '';
+          document.documentElement.dispatchEvent(new Event('nubieIntroFinished'));
+        }
+        return;
+      }
+
+      function animateLogoIn(){ 
+        if(PREFS_REDUCED){ 
+          logo.style.opacity = 1; 
+          logo.style.transform = 'none'; 
+          return; 
+        } 
+        logo.animate([{opacity:0, transform:'translateY(8px) scale(.98)'},{opacity:1, transform:'translateY(0) scale(1)'}], {duration:460, easing:'cubic-bezier(.22,.9,.31,1)', fill:'forwards', delay:120}); 
+      } 
+      function animateProgressTo(pct, dur=800){ 
+        if(PREFS_REDUCED){ 
+          progress.style.transition = 'none';
+          progress.style.webkitTransition = 'none';
+          progress.style.width = pct+'%'; 
+          return; 
+        } 
+        progress.style.webkitTransition = 'width ' + dur + 'ms cubic-bezier(.22,.9,.31,1)';
+        progress.style.transition = 'width ' + dur + 'ms cubic-bezier(.22,.9,.31,1)';
+        progress.style.width = pct+'%'; 
+      } 
+      function startShimmer(){ 
+        if(PREFS_REDUCED) return; 
+        shimmer.animate([{transform:'translateX(-120%)'},{transform:'translateX(120%)'}], {duration:900, iterations:Infinity, easing:'linear'}); 
+      } 
+
+      const MIN_VISIBLE = 2000;
+      const MAX_VISIBLE = 3000;
+
+      function finishIntro(){ 
+        intro.setAttribute('aria-live', 'off');
+        animateProgressTo(100, 1000); 
+        if(!PREFS_REDUCED){ 
+          setTimeout(()=>{ 
+            try{ logo.animate([{transform:'scale(1)'},{transform:'scale(1.03)', opacity:0}],{duration:600,easing:'cubic-bezier(.22,.9,.31,1)', fill:'forwards'});}catch(e){} 
+          }, 400); 
+        } 
+        setTimeout(()=>{ 
+          intro.animate([{opacity:1},{opacity:0}], {duration:400,easing:'ease', fill:'forwards'}).onfinish = ()=>{ 
+            intro.remove(); 
+            document.body.style.overflow = '';
+            document.documentElement.dispatchEvent(new Event('nubieIntroFinished')); 
+          }; 
+          try{ localStorage.setItem(firstVisitKey,'1'); }catch(e){} 
+        }, 1000); 
+      } 
+
+      document.addEventListener('keydown', (e)=>{ if(e.key==='Escape' && document.getElementById('nubie-intro')) finishIntro(); }); 
+
+      const heroImg = document.querySelector('img[data-nubie-hero]'); 
+      let heroLoaded = false; 
+      if(heroImg){ 
+        if(heroImg.complete) heroLoaded = true; 
+        else heroImg.addEventListener('load', ()=>{ heroLoaded = true; }); 
+      } 
+
+      animateLogoIn(); 
+      startShimmer(); 
+      animateProgressTo(25, 1000); 
+      setTimeout(()=>animateProgressTo(65, 1000), 1000); 
+
+      const checkFinish = setInterval(()=>{ 
+        const elapsed = performance.now() - start; 
+        if(heroLoaded || document.readyState === 'complete' || elapsed > MAX_VISIBLE){ 
+          clearInterval(checkFinish); // clear immediately to prevent duplicate timeouts
+          const minElapsed = Math.max(0, MIN_VISIBLE - elapsed); 
+          setTimeout(()=>{ 
+            finishIntro(); 
+          }, minElapsed); 
+        } 
+      }, 160); 
+
+      setTimeout(()=>{ 
+        finishIntro(); 
+        clearInterval(checkFinish); 
+      }, MAX_VISIBLE + 800); 
+
+      document.addEventListener('nubieIntroFinished', ()=>{ 
+        try{ 
+          if(window.gtag) gtag('event','intro_finished',{event_category:'engagement'}); 
+          if(window.dataLayer) dataLayer.push({event:'intro_finished'}); 
+        }catch(e){} 
+      }); 
+
+      if(PREFS_REDUCED){ 
+        animateProgressTo(100, 200); 
+        setTimeout(()=>{ finishIntro(); }, Math.max(MIN_VISIBLE, 200)); 
+      } 
+    })(); 
+  </script>
+
+  <!-- Sticky Header -->
+  <header class="site-header" id="site-header">
+    <div class="container header-inner">
+      <!-- Logo -->
+      <a href="/" class="logo-link" aria-label="Nubie Homepage">
+        <span class="nubie-cursive-logo">Nubie</span>
+      </a>
+
+      <!-- Desktop Navigation -->
+      <nav class="desktop-nav" aria-label="Main Navigation">
+        <ul class="nav-list">
+          <li><a href="#home" class="nav-link">Home</a></li>
+          <li><a href="#products" class="nav-link">Products</a></li>
+          <li><a href="#about" class="nav-link">About</a></li>
+          <li><a href="#tips" class="nav-link">Tips</a></li>
+          <li><a href="#contact" class="nav-link">Contact</a></li>
+        </ul>
+      </nav>
+
+      <!-- Right Actions -->
+      <div class="header-actions">
+        <a href="tel:+1234567890" class="btn btn-white" style="padding: 8px 16px;">Call Now</a>
+        
+        <!-- Mobile Menu Toggle -->
+        <button class="mobile-menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Menu Overlay -->
+  <div class="mobile-menu-overlay" id="mobile-menu" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Mobile Navigation Menu">
+    <button class="mobile-menu-close" id="mobile-menu-close" aria-label="Close menu">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+    <nav aria-label="Mobile Navigation">
+      <ul class="mobile-nav-list">
+        <li><a href="#home" class="mobile-nav-link">Home</a></li>
+        <li><a href="#products" class="mobile-nav-link">Products</a></li>
+        <li><a href="#about" class="mobile-nav-link">About</a></li>
+        <li><a href="#tips" class="mobile-nav-link">Tips</a></li>
+        <li><a href="#contact" class="mobile-nav-link">Contact</a></li>
+      </ul>
+    </nav>
+    <div class="mobile-nav-cta">
+      <a href="tel:+1234567890" class="btn btn-primary" style="padding: 14px 32px">Call Now</a>
+    </div>
+  </div>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="hero" id="home" aria-label="Nubie Introduction">
+      <!-- Background Image with Gradient and Overlays -->
+      <div class="hero-bg">
+        <div class="hero-image-wrapper">
+          <img src="Images/Home page background.png" alt="Mother holding happy baby in golden hour light" class="hero-image" fetchpriority="high" data-nubie-hero>
+        </div>
+        <div class="hero-gradient"></div>
+        <div class="hero-vignette"></div>
+        <div class="hero-grain"></div>
+      </div>
+
+      <!-- Hero Content -->
+      <div class="container hero-container">
+        <div class="hero-content">
+          <h1 class="hero-headline">Gentle care for tiny beginnings.</h1>
+          <p class="hero-subhead">We focus on natural, pediatrician-informed essentials parents trust.<br>Gentle on skin, tough on bad days.</p>
+          
+          <div class="hero-ctas">
+            <a href="https://your-shopify.example/?utm_source=brand_site&utm_medium=hero&utm_campaign=homepage" target="_blank" rel="noopener noreferrer" class="btn btn-primary cta-primary">Shop on Shopify</a>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Trust Strip -->
+    <section class="trust-strip container" aria-label="Why parents trust Nubie">
+      <div class="trust-grid">
+        <div class="trust-card">
+          <svg class="trust-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+          </svg>
+          <span class="trust-text">Pediatrician<br>tested</span>
+        </div>
+        <div class="trust-card">
+          <svg class="trust-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M8 14s1.5 2 4 2 4-2 4-2 M9 9h.01 M15 9h.01"/>
+          </svg>
+          <span class="trust-text">Hypoallergenic<br>formula</span>
+        </div>
+        <div class="trust-card">
+          <svg class="trust-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/>
+            <path d="m3.3 7 8.7 5 8.7-5 M12 22V12"/>
+          </svg>
+          <span class="trust-text">Sustainable<br>packaging</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sticky Filter & Sort Bar -->
+    <div class="filter-bar-wrapper" id="products"> <!-- Keep ID for navigation -->
+      <div class="container" style="padding-top: 64px; padding-bottom: 24px; text-align: center; display: flex; flex-direction: column; align-items: center;">
+        <h2 class="section-title" style="margin-bottom: 8px;">Shop All Essentials</h2>
+        <p style="color: var(--text-muted); font-size: 16px; margin: 0; max-width: 600px;">Pediatrician approved skincare for your little one.</p>
+      </div>
+      <div class="container filter-bar-inner">
+        <!-- Scrollable Pills Container -->
+        <div class="filter-pills-container">
+          <div class="filter-pills" role="tablist" aria-label="Product Categories">
+            <!-- Active underline indicator -->
+            <div class="pill-active-bg" aria-hidden="true"></div>
+            
+            <button class="filter-pill active" role="tab" aria-selected="true" data-filter="all">All</button>
+            <button class="filter-pill" role="tab" aria-selected="false" data-filter="feeding">Feeding</button>
+            <button class="filter-pill" role="tab" aria-selected="false" data-filter="bath">Bath & Care</button>
+            <button class="filter-pill" role="tab" aria-selected="false" data-filter="skin">Skin</button>
+            <button class="filter-pill" role="tab" aria-selected="false" data-filter="accessories">Accessories</button>
+            <button class="filter-pill" role="tab" aria-selected="false" data-filter="gifts">Gift Sets</button>
+          </div>
+        </div>
+
+        <div class="filter-actions">
+          <div class="sort-dropdown">
+            <label for="sort-select" class="visually-hidden">Sort products by</label>
+            <select id="sort-select" class="sort-select">
+              <option value="bestsellers">Bestsellers</option>
+              <option value="new">New</option>
+              <option value="price-low">Price: Low to High</option>
+              <option value="price-high">Price: High to Low</option>
+            </select>
+          </div>
+          
+          <div class="view-toggles" aria-label="Layout view">
+            <button class="view-btn active" id="view-grid" aria-label="Grid view" aria-pressed="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+            </button>
+            <button class="view-btn" id="view-list" aria-label="List view" aria-pressed="false">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Product Grid -->
+    <section class="main-catalog container" id="catalog-grid">
+      <div class="product-grid" id="main-product-grid">
+        <article class="prod-card grid-card">
+          <div class="prod-image-wrap">
+            <img src="images/Calming Baby Lotion.png" alt="Calming Baby Lotion with Oatmeal and Chamomile" class="prod-img" loading="lazy">
+            <button class="quick-view-btn" aria-label="Quick view Calming Baby Lotion" data-target="prod-101">Quick View</button>
+          </div>
+          <div class="prod-info">
+            <h3 class="prod-title">Calming Baby Lotion</h3>
+            <p class="prod-benefit">Oatmeal & Chamomile</p>
+            <div class="prod-bottom">
+              <div class="prod-rating">★★★★★ <span class="review-count">(145)</span></div>
+              <a href="https://your-shopify.example/products/lotion?utm_source=brand_site&utm_medium=product_grid&utm_campaign=products" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm buy-btn">Buy on Shopify</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="prod-card grid-card">
+          <div class="prod-image-wrap">
+            <img src="images/Natural Baby Powder.png" alt="Natural Baby Powder, Talc-free with Aloe Vera" class="prod-img" loading="lazy">
+            <button class="quick-view-btn" aria-label="Quick view Natural Baby Powder" data-target="prod-102">Quick View</button>
+          </div>
+          <div class="prod-info">
+            <h3 class="prod-title">Natural Baby Powder</h3>
+            <p class="prod-benefit">Talc-free, Aloe vera</p>
+            <div class="prod-bottom">
+              <div class="prod-rating">★★★★☆ <span class="review-count">(88)</span></div>
+              <a href="https://your-shopify.example/products/powder?utm_source=brand_site&utm_medium=product_grid&utm_campaign=products" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm buy-btn">Buy on Shopify</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="prod-card grid-card">
+          <div class="prod-image-wrap">
+            <img src="images/Diaper Rash Cream.png" alt="Diaper Rash Cream with Fast-acting Zinc Oxide" class="prod-img" loading="lazy">
+            <button class="quick-view-btn" aria-label="Quick view Diaper Rash Cream" data-target="prod-103">Quick View</button>
+          </div>
+          <div class="prod-info">
+            <h3 class="prod-title">Diaper Rash Cream</h3>
+            <p class="prod-benefit">Fast-acting zinc oxide</p>
+            <div class="prod-bottom">
+              <div class="prod-rating">★★★★★ <span class="review-count">(201)</span></div>
+              <a href="https://your-shopify.example/products/rash-cream?utm_source=brand_site&utm_medium=product_grid&utm_campaign=products" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm buy-btn">Buy on Shopify</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="prod-card grid-card">
+          <div class="prod-image-wrap">
+            <img src="images/Gentle Baby Soap.png" alt="Gentle Baby Shampoo, Tear-free and pH Balanced" class="prod-img" loading="lazy">
+            <button class="quick-view-btn" aria-label="Quick view Gentle Baby Shampoo" data-target="prod-104">Quick View</button>
+          </div>
+          <div class="prod-info">
+            <h3 class="prod-title">Gentle Baby Shampoo</h3>
+            <p class="prod-benefit">Tear-free, pH balanced</p>
+            <div class="prod-bottom">
+              <div class="prod-rating">★★★★★ <span class="review-count">(350)</span></div>
+              <a href="https://your-shopify.example/products/shampoo?utm_source=brand_site&utm_medium=product_grid&utm_campaign=products" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm buy-btn">Buy on Shopify</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="prod-card grid-card">
+          <div class="prod-image-wrap">
+            <img src="images/Hooded Baby Towel.png" alt="Hooded Baby Towel, 100% Organic Bamboo" class="prod-img" loading="lazy">
+            <button class="quick-view-btn" aria-label="Quick view Hooded Baby Towel" data-target="prod-105">Quick View</button>
+          </div>
+          <div class="prod-info">
+            <h3 class="prod-title">Hooded Baby Towel</h3>
+            <p class="prod-benefit">100% Organic Bamboo</p>
+            <div class="prod-bottom">
+              <div class="prod-rating">★★★★★ <span class="review-count">(64)</span></div>
+              <a href="https://your-shopify.example/products/towel?utm_source=brand_site&utm_medium=product_grid&utm_campaign=products" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm buy-btn">Buy on Shopify</a>
+            </div>
+          </div>
+        </article>
+        
+        <article class="prod-card grid-card">
+          <div class="prod-image-wrap">
+            <img src="images/Soothing Nipple Balm.png" alt="Soothing Nipple Balm with Pure Botanicals" class="prod-img" loading="lazy">
+            <button class="quick-view-btn" aria-label="Quick view Nipple Balm" data-target="prod-106">Quick View</button>
+          </div>
+          <div class="prod-info">
+            <h3 class="prod-title">Soothing Nipple Balm</h3>
+            <p class="prod-benefit">Lanolin-free, pure botanicals</p>
+            <div class="prod-bottom">
+              <div class="prod-rating">★★★★☆ <span class="review-count">(91)</span></div>
+              <a href="https://your-shopify.example/products/balm?utm_source=brand_site&utm_medium=product_grid&utm_campaign=products" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm buy-btn">Buy on Shopify</a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Collections & Bundles -->
+    <section class="collections-section container" id="collections">
+      <h2 class="section-title text-center">Curated Collections</h2>
+      <div class="collections-grid">
+        <a href="https://your-shopify.example/collections/feeding?utm_source=brand_site&utm_medium=collection_tile&utm_campaign=products" target="_blank" rel="noopener noreferrer" class="collection-tile">
+          <img src="images/Feeding Essentials.png" alt="Feeding Essentials Collection" class="collection-bg-img" loading="lazy">
+          <div class="tile-content">
+            <h3>Feeding Essentials</h3>
+            <span class="btn btn-outline btn-sm">Shop Collection</span>
+          </div>
+        </a>
+        <a href="https://your-shopify.example/collections/bath?utm_source=brand_site&utm_medium=collection_tile&utm_campaign=products" target="_blank" rel="noopener noreferrer" class="collection-tile">
+          <img src="images/Bath & Care.png" alt="Bath and Care Collection" class="collection-bg-img" loading="lazy">
+          <div class="tile-content">
+            <h3>Bath &amp; Care</h3>
+            <span class="btn btn-outline btn-sm">Shop Collection</span>
+          </div>
+        </a>
+        <a href="https://your-shopify.example/collections/gifts?utm_source=brand_site&utm_medium=collection_tile&utm_campaign=products" target="_blank" rel="noopener noreferrer" class="collection-tile">
+          <img src="images/The Newborn Gift Set.png" alt="The Newborn Gift Set Collection" class="collection-bg-img" loading="lazy">
+          <div class="tile-content">
+            <h3>The Newborn Gift Set</h3>
+            <span class="btn btn-outline btn-sm">Shop Collection</span>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- ================= ABOUT SECTION START ================= -->
+    <div id="about">
+      <!-- 1. Hero Story Section -->
+      <section class="about-hero" aria-label="About Nubie">
+        <div class="container hero-split">
+          <div class="hero-left">
+            <h1 class="hero-title reveal-up">Made with Love for Little Beginnings</h1>
+            <p class="hero-subtext reveal-up">At Nubie, every product is designed with care, safety, and comfort in mind — because your baby deserves the gentlest start in life.</p>
+            <div class="hero-ctas reveal-up">
+              <a href="#products" class="btn btn-outline">Explore Products</a>
+              <a href="https://your-shopify.example/?utm_source=brand_site&utm_medium=hero&utm_campaign=about_section" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Visit Shopify Store</a>
+            </div>
+          </div>
+          <div class="hero-right">
+            <div class="hero-image-frame reveal-scale">
+              <img src="images/About Hero (Parallax.jpg" alt="Mother and baby sharing a loving moment" class="parallax-bg" data-speed="0.05" loading="lazy">
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. Brand Story Section -->
+      <section class="brand-story-section bg-cream" aria-label="Our Brand Story">
+        <div class="container story-split">
+          <div class="story-left">
+            <div class="story-image-frame reveal-scale">
+               <img src="images/Brand Story Plate.jpg" alt="Behind the scenes at Nubie - our ingredients and process" class="background-plate" loading="lazy">
+            </div>
+          </div>
+          <div class="story-right reveal-up">
+            <h2 class="editorial-heading">Our journey started with a simple belief.</h2>
+            <div class="elegant-divider"></div>
+            <p class="editorial-body">Baby care products should be safe, gentle, and thoughtfully designed. When we couldn't find skincare that met our uncompromising standards for purity without sacrificing elegance, we partnered with leading pediatricians to create our own.</p>
+            <p class="editorial-body">Every bottle, every balm, and every bundle is a promise from our family to yours: unconditional care for the moments that matter most.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. Brand Values Section -->
+      <section class="values-section" aria-label="Core Values">
+        <div class="container">
+          <h2 class="section-title text-center reveal-up">The Nubie Standard</h2>
+          <div class="values-grid">
+            <div class="value-card reveal-up" style="--stagger: 0">
+              <div class="value-icon">
+                <!-- Shield Icon -->
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              </div>
+              <h3 class="value-title">Safety First</h3>
+              <p class="value-desc">Rigorously tested formulas ensuring absolute purity for delicate immune systems.</p>
+            </div>
+            <div class="value-card reveal-up" style="--stagger: 1">
+              <div class="value-icon">
+                <!-- Feather Icon -->
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"/><line x1="16" y1="8" x2="2" y2="22"/></svg>
+              </div>
+              <h3 class="value-title">Gentle Materials</h3>
+              <p class="value-desc">Plant-based, hypoallergenic ingredients avoiding all known irritants.</p>
+            </div>
+            <div class="value-card reveal-up" style="--stagger: 2">
+              <div class="value-icon">
+                <!-- Heart Icon -->
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+              </div>
+              <h3 class="value-title">Parent Trusted</h3>
+              <p class="value-desc">Engineered alongside real parents to ensure efficacy on the toughest days.</p>
+            </div>
+            <div class="value-card reveal-up" style="--stagger: 3">
+              <div class="value-icon">
+                <!-- Leaf Icon -->
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
+              </div>
+              <h3 class="value-title">Sustainable Care</h3>
+              <p class="value-desc">100% recyclable packaging utilizing bio-resins and ethical supply chains.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. Product Philosophy Section -->
+      <section class="philosophy-section bg-cream" aria-label="Product Philosophy">
+        <div class="container philosophy-inner">
+          <h2 class="editorial-display text-center reveal-up">Designed for Comfort,<br>Trusted by Parents</h2>
+          <p class="philosophy-manifesto text-center reveal-up">We believe transparency is the ultimate luxury. Our philosophy rejects the notion that effective care must rely on harsh synthetics. Instead, we embrace a minimalist approach: using only what is necessary, and ensuring every single ingredient serves a calming purpose.</p>
+          
+          <div class="philosophy-blocks">
+            <div class="phil-block reveal-up" style="--stagger: 0">
+              <span class="phil-line"></span>
+              <h4>Skin-Safe Materials</h4>
+              <p>We source ultra-pure colloidal oatmeal, refined shea, and calendula to actively support the developing lipid barrier.</p>
+            </div>
+            <div class="phil-block reveal-up" style="--stagger: 1">
+              <span class="phil-line"></span>
+              <h4>Pediatrician Approved</h4>
+              <p>Every formula undergoes strict dermatological reviews to guarantee tear-free, rash-relieving results.</p>
+            </div>
+            <div class="phil-block reveal-up" style="--stagger: 2">
+              <span class="phil-line"></span>
+              <h4>Eco-Friendly Packaging</h4>
+              <p>Our soft-touch bottles are designed to look beautiful in your nursery and break down responsibly in the earth.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5. Behind the Brand Section -->
+      <section class="founder-section" aria-label="Behind the Brand">
+        <div class="container founder-split">
+          <div class="founder-left reveal-up">
+            <span class="eyebrow" style="color: var(--cta-coral);">Behind the Brand</span>
+            <h2 class="editorial-heading">"We wanted peace of mind, bottled."</h2>
+            <div class="elegant-divider"></div>
+            <p class="editorial-body">As new parents, the sheer volume of choices was overwhelming. The market was flooded with 'natural' products that still harbored hidden irritants, and effective products that felt clinical and harsh.</p>
+            <p class="editorial-body">Nubie was born from our desire to bridge that gap. We envisioned a brand that felt like a deep breath—a luxurious, fail-proof toolkit for parents who refuse to compromise on aesthetics or safety.</p>
+            <div class="founder-signoff">
+              <span class="founder-name">Sarah &amp; Michael Thompson</span>
+              <span class="founder-title">Founders, Nubie</span>
+            </div>
+          </div>
+          <div class="founder-right">
+            <div class="founder-image-frame reveal-scale">
+              <img src="images/Founder Photo.jpg" alt="Sarah and Michael Thompson, Founders of Nubie" class="background-plate" loading="lazy">
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 7. Call to Action Section (Glow) -->
+      <section class="glow-cta-section text-center" aria-label="Final Call to Action">
+        <div class="glow-backdrop"></div>
+        <div class="container glow-cta-content reveal-up">
+          <h2 class="glow-cta-title">Give Your Baby the Care They Deserve</h2>
+          <a href="https://your-shopify.example/?utm_source=brand_site&utm_medium=final_cta_about&utm_campaign=about_page" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-lg pulse-hover">Shop Nubie on Shopify</a>
+        </div>
+      </section>
+    </div>
+    <!-- ================= ABOUT SECTION END ================= -->
+
+    <!-- Trust & Certs Row -->
+    <div class="trust-row-wrapper" aria-label="Certifications">
+      <div class="container trust-row">
+        <div class="trust-badge">
+          <svg class="badge-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Pediatrician Approved
+        </div>
+        <div class="trust-badge">
+          <svg class="badge-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+          100% Recyclable
+        </div>
+        <div class="trust-badge">
+          <svg class="badge-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2 M9 9h.01 M15 9h.01"/></svg>
+          Hypoallergenic
+        </div>
+        <div class="trust-badge">
+          <svg class="badge-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12h4l3-9 5 18 3-9h5"/></svg>
+          Clinically Tested
+        </div>
+      </div>
+    </div>
+
+    <!-- Reviews Section -->
+    <section class="reviews-section" aria-label="Customer Reviews">
+      <div class="container reviews-carousel text-center">
+        <div class="review-card">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">"The only lotion that finally cleared up my daughter's dry patches. It feels so luxurious and sinks right in without being greasy."</p>
+          <span class="review-author">— Sarah M., Verified Buyer</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="final-cta-section text-center" aria-label="Shop All Essentials">
+      <div class="container">
+        <h2 class="final-cta-title">Gentle, effective, and parent-approved. Start your Nubie routine today.</h2>
+        <a href="https://your-shopify.example/collections/all?utm_source=brand_site&utm_medium=final_cta&utm_campaign=products" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-lg">Shop Best Sellers</a>
+      </div>
+    </section>
+
+    <!-- ================= TIPS SECTION START ================= -->
+    <div id="tips">
+      <!-- Tips Hero/Intro -->
+      <section class="tips-hero" aria-label="Tips & Advice">
+        <div class="container tips-split">
+          <div class="tips-left">
+            <h1 class="tips-title reveal-up">Gentle tips for happy little beginnings.</h1>
+            <p class="tips-subhed reveal-up">Practical, pediatrician-informed advice to help parents feel confident.</p>
+            <div class="hero-ctas reveal-up">
+              <a href="#featured-tips" class="btn btn-outline">Explore Tips</a>
+              <a href="https://your-shopify.example/?utm_source=brand_site&utm_medium=hero&utm_campaign=tips" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Shop Essentials</a>
+            </div>
+          </div>
+          <div class="tips-right">
+             <div class="tips-hero-image reveal-scale">
+               <img src="images/Gemini_Generated_Image_4jftsd4jftsd4jft.png" alt="Happy baby in a cozy nursery" loading="lazy">
+             </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Featured Tips Row -->
+      <section id="featured-tips" class="featured-tips-section bg-cream">
+        <div class="container">
+          <h2 class="section-title text-center reveal-up">Featured Advice</h2>
+          <div class="featured-tips-grid">
+            <article class="tip-card featured-card reveal-up" style="--stagger: 0">
+              <div class="tip-image-wrap">
+                <img src="images/Featured tip 1.jpg" alt="Navigating newborn sleep" loading="lazy">
+              </div>
+              <div class="tip-content">
+                <h3 class="tip-title">Navigating the First Month of Newborn Sleep</h3>
+                <p class="tip-excerpt">Understanding sleep cycles and creating a calming routine that works for your family.</p>
+                <div class="tip-meta">
+                  <span>By Dr. Sarah Jenkins</span> &bull; <span>5 min read</span>
+                </div>
+                <div class="tip-actions">
+                  <button class="btn btn-outline btn-sm read-tip-btn" data-tip-id="tip-1">Read Tip</button>
+                  <button class="btn-icon bookmark-btn" aria-label="Save tip">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+                  </button>
+                </div>
+              </div>
+            </article>
+            <article class="tip-card featured-card reveal-up" style="--stagger: 1">
+              <div class="tip-image-wrap">
+                <img src="images/Featured tip 2.png" alt="The science of baby skin barrier" loading="lazy">
+              </div>
+              <div class="tip-content">
+                <h3 class="tip-title">The Science of the Skin Barrier</h3>
+                <p class="tip-excerpt">Why baby skin is so susceptible to dryness and how to safely protect it.</p>
+                <div class="tip-meta">
+                  <span>By Nubie Care Experts</span> &bull; <span>4 min read</span>
+                </div>
+                <div class="tip-actions">
+                  <button class="btn btn-outline btn-sm read-tip-btn" data-tip-id="tip-2">Read Tip</button>
+                  <button class="btn-icon bookmark-btn" aria-label="Save tip">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+                  </button>
+                </div>
+              </div>
+            </article>
+            <article class="tip-card featured-card reveal-up" style="--stagger: 2">
+              <div class="tip-image-wrap">
+                <img src="images/Featured tip 3.jpg" alt="Choosing the right bath temperature" loading="lazy">
+              </div>
+              <div class="tip-content">
+                <h3 class="tip-title">Choosing the Right Bath Temperature</h3>
+                <p class="tip-excerpt">A quick guide to safe bathing practices for newborns and infants.</p>
+                <div class="tip-meta">
+                  <span>By Dr. Alex Chen</span> &bull; <span>3 min read</span>
+                </div>
+                <div class="tip-actions">
+                  <button class="btn btn-outline btn-sm read-tip-btn" data-tip-id="tip-3">Read Tip</button>
+                  <button class="btn-icon bookmark-btn" aria-label="Save tip">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+                  </button>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- Main Tips Grid -->
+      <section class="main-tips-section container">
+        <div class="tips-header-flex reveal-up" style="padding-left: 24px;">
+          <h2 class="section-title">All Tips & Guides</h2>
+          <div class="view-toggles" aria-label="Layout view">
+            <button class="view-btn active" id="tips-view-grid" aria-label="Grid view" aria-pressed="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+            </button>
+            <button class="view-btn" id="tips-view-list" aria-label="List view" aria-pressed="false">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+            </button>
+          </div>
+        </div>
+        
+        <div class="tips-grid" id="main-tips-grid">
+           <!-- Tip 1 -->
+           <article class="tip-grid-card reveal-up">
+               <div class="tip-image-wrap">
+                 <img src="images/guide tip 1.jpg" alt="Identifying common baby rashes" loading="lazy">
+               </div>
+              <div class="tip-content">
+                <div class="tip-tags">
+                  <span class="tag">Skincare</span>
+                  <span class="tag">0-6 Months</span>
+                </div>
+                <h3 class="tip-title">Identifying Common Baby Rashes</h3>
+                <p class="tip-excerpt">Learn to spot the difference between baby acne, eczema, and heat rash.</p>
+                <div class="tip-meta">4 min read</div>
+                <div class="tip-footer">
+                  <a href="https://your-shopify.example/collections/skin?utm_source=brand_site&utm_medium=inline_suggestion&utm_campaign=tips" target="_blank" class="inline-shop-cta">Shop Skincare</a>
+                  <div class="tip-tools">
+                    <button class="btn-icon share-btn" aria-label="Share tip" title="Share">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path><polyline points="16 6 12 2 8 6"></polyline><line x1="12" y1="2" x2="12" y2="15"></line></svg>
+                    </button>
+                    <button class="btn-icon bookmark-btn" aria-label="Save tip" title="Bookmark">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+           </article>
+
+           <!-- Tip 2 -->
+           <article class="tip-grid-card reveal-up">
+               <div class="tip-image-wrap">
+                 <img src="images/guide tip 2.jpg" alt="When to introduce solid foods" loading="lazy">
+               </div>
+              <div class="tip-content">
+                <div class="tip-tags">
+                  <span class="tag">Feeding</span>
+                </div>
+                <h3 class="tip-title">When to Introduce Solid Foods</h3>
+                <p class="tip-excerpt">Signs of readiness and making the transition from milk smooth globally.</p>
+                <div class="tip-meta">6 min read</div>
+                <div class="tip-footer">
+                  <a href="https://your-shopify.example/collections/feeding?utm_source=brand_site&utm_medium=inline_suggestion&utm_campaign=tips" target="_blank" class="inline-shop-cta">Shop Feeding</a>
+                  <div class="tip-tools">
+                    <button class="btn-icon share-btn" aria-label="Share tip" title="Share">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path><polyline points="16 6 12 2 8 6"></polyline><line x1="12" y1="2" x2="12" y2="15"></line></svg>
+                    </button>
+                    <button class="btn-icon bookmark-btn" aria-label="Save tip" title="Bookmark">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+           </article>
+           
+           <!-- Tip 3 -->
+           <article class="tip-grid-card reveal-up">
+               <div class="tip-image-wrap">
+                 <img src="images/Guide Tip 3.jpg" alt="Postpartum care essentials for mom" loading="lazy">
+               </div>
+              <div class="tip-content">
+                <div class="tip-tags">
+                  <span class="tag">Wellness</span>
+                  <span class="tag">Maternal</span>
+                </div>
+                <h3 class="tip-title">Postpartum Care Essentials for Mom</h3>
+                <p class="tip-excerpt">Because you cannot pour from an empty cup. Gentle recovery strategies.</p>
+                <div class="tip-meta">5 min read</div>
+                <div class="tip-footer">
+                  <a href="https://your-shopify.example/products/balm?utm_source=brand_site&utm_medium=inline_suggestion&utm_campaign=tips" target="_blank" class="inline-shop-cta">Shop Nipple Balm</a>
+                  <div class="tip-tools">
+                    <button class="btn-icon share-btn" aria-label="Share tip" title="Share">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path><polyline points="16 6 12 2 8 6"></polyline><line x1="12" y1="2" x2="12" y2="15"></line></svg>
+                    </button>
+                    <button class="btn-icon bookmark-btn" aria-label="Save tip" title="Bookmark">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+           </article>
+        </div>
+      </section>
+
+      <!-- Toast Notification Container (Hidden by default) -->
+      <div class="toast-container" id="toast-container" aria-live="polite">
+        <div class="toast" id="interaction-toast">
+          <svg class="toast-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          <span class="toast-message">Saved to My Tips</span>
+        </div>
+      </div>
+    </div>
+    <!-- ================= TIPS SECTION END ================= -->
+
+    <!-- Newsletter -->
+    <section class="newsletter" aria-labelledby="newsletter-heading">
+      <div class="container newsletter-inner">
+        <div class="newsletter-content">
+          <h2 id="newsletter-heading">Join &amp; get 10% off your first order</h2>
+          <p>Early access to new launches, and parenting tips straight to your inbox.</p>
+        </div>
+        <form class="newsletter-form" id="newsletter-form">
+          <div class="input-group">
+            <label for="email-input" class="visually-hidden">Email address</label>
+            <input type="email" id="email-input" placeholder="Your email address" required>
+            <button type="submit" class="btn btn-primary">Get my code</button>
+          </div>
+          <div class="success-message" id="success-message" aria-live="polite" hidden>
+            Your code is <strong>NUBIE10</strong>. <a href="https://your-shopify.example/?utm_source=brand_site&utm_medium=newsletter" target="_blank" rel="noopener noreferrer" style="text-decoration: underline;">Visit Shop now</a>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- Quick View Modal (Hidden by default) -->
+  <div class="modal-overlay" id="quick-view-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-container">
+      <button class="modal-close" id="modal-close-btn" aria-label="Close modal">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+      
+      <div class="modal-content">
+        <!-- Left: Image Gallery -->
+        <div class="modal-gallery">
+          <div class="modal-image-main bg-powder" id="modal-image"></div>
+          <div class="modal-thumbs">
+            <!-- Simulated thumbnail boxes -->
+            <div class="modal-thumb active" aria-label="View view 1" tabindex="0"></div>
+            <div class="modal-thumb" aria-label="View view 2" tabindex="0"></div>
+            <div class="modal-thumb" aria-label="View view 3" tabindex="0"></div>
+          </div>
+        </div>
+
+        <!-- Right: Details -->
+        <div class="modal-details">
+          <h2 class="modal-title" id="modal-title">Product Name</h2>
+          <div class="modal-price">$22.00 USD</div>
+          
+          <ul class="modal-bullets">
+            <li>Dermatologist approved</li>
+            <li>Free of parabens & phthalates</li>
+            <li>Plant-based ingredients</li>
+          </ul>
+
+          <details class="modal-accordion">
+            <summary>Ingredients & Details</summary>
+            <div class="accordion-content">
+              Full list of natural ingredients focusing on maintaining the delicate skin barrier. Sourced responsibly.
+            </div>
+          </details>
+
+          <div class="modal-actions">
+            <a href="https://your-shopify.example/cart/add?id=123&utm_source=brand_site&utm_medium=quick_view&utm_campaign=products" target="_blank" rel="noopener noreferrer" class="btn btn-primary modal-buy">Add to Cart - $22.00</a>
+            <a href="https://your-shopify.example/products/example?utm_source=brand_site&utm_medium=quick_view&utm_campaign=products" target="_blank" rel="noopener noreferrer" class="modal-link">View full details on shop</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+    <!-- ================= CONTACT SECTION START ================= -->
+    <div id="contact" class="bg-white">
+      
+      <!-- hero -->
+      <section class="contact-hero" aria-label="Contact Us">
+        <div class="container contact-split">
+          <div class="contact-left">
+            <h1 class="contact-title reveal-up">Let’s Take Care Together</h1>
+            <p class="contact-subhed reveal-up">Questions about our products or partnerships? We’re here to help.</p>
+            <div class="hero-ctas reveal-up">
+              <a href="#contact-form-section" class="btn btn-primary">Send Message</a>
+              <a href="https://your-shopify.example/?utm_source=brand_site&utm_medium=contact_hero&utm_campaign=contact" target="_blank" rel="noopener noreferrer" class="btn btn-outline">Shop Nubie Products</a>
+            </div>
+          </div>
+          <div class="contact-right">
+             <div class="contact-hero-image reveal-scale">
+               <img src="images/Gemini_Generated_Image_uri3lruri3lruri3.png" alt="Nubie baby care products" loading="lazy">
+             </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- trust row -->
+      <div class="contact-trust-row container text-center reveal-up">
+        <span class="trust-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> Response within 48 hours</span>
+        <span class="trust-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg> Secure contact</span>
+        <span class="trust-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg> Privacy assured</span>
+      </div>
+
+
+      <!-- details grid -->
+      <section class="contact-details-section container">
+        <div class="contact-grid">
+          <a href="mailto:support@nubie.example" class="detail-card reveal-up" style="--stagger: 0">
+            <div class="detail-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></div>
+            <h4>Support Email</h4>
+            <p>support@nubie.example</p>
+          </a>
+          <a href="mailto:wholesale@nubie.example" class="detail-card reveal-up" style="--stagger: 1">
+            <div class="detail-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg></div>
+            <h4>Wholesale</h4>
+            <p>wholesale@nubie.example</p>
+          </a>
+          <a href="tel:+18005550199" class="detail-card reveal-up" style="--stagger: 2">
+            <div class="detail-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg></div>
+            <h4>Phone / WhatsApp</h4>
+            <p>+1 (800) 555-0199</p>
+          </a>
+          <button class="detail-card map-trigger-btn reveal-up" style="--stagger: 3" id="open-map-btn" aria-label="Open Office Map">
+            <div class="detail-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg></div>
+            <h4>Our Studio</h4>
+            <p>123 Calm Lane, CA</p>
+          </button>
+        </div>
+      </section>
+
+      <!-- map band -->
+      <section class="map-strip-section" id="map-strip" hidden aria-hidden="true">
+        <div class="map-container placeholder-map bg-cream" id="google-map-container">
+           <div class="map-overlay text-center">
+             <a href="https://maps.google.com/?q=123+Calm+Lane" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="pointer-events: auto;">Open in Google Maps</a>
+           </div>
+        </div>
+      </section>
+
+      <!-- faq and call split -->
+      <div class="container split-columns-contact" style="display: grid; grid-template-columns: 1fr 1fr; gap: 64px; margin-top: 80px;">
+        <!-- faq accordion -->
+        <section class="inline-faq-section reveal-up">
+          <h2 class="editorial-heading" style="font-size: 28px; margin-bottom: 32px;">Frequently Asked</h2>
+          <div class="faq-accordion-group">
+            <details class="faq-accordion-item" name="contact-faq">
+              <summary>Where is my order?<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chevron"><polyline points="6 9 12 15 18 9"></polyline></svg></summary>
+              <div class="faq-content"><div class="faq-inner">Orders typically ship within 1-2 business days. You’ll receive a tracking link via email as soon as it leaves our facility.</div></div>
+            </details>
+            <details class="faq-accordion-item" name="contact-faq">
+              <summary>What is your return policy?<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chevron"><polyline points="6 9 12 15 18 9"></polyline></svg></summary>
+              <div class="faq-content"><div class="faq-inner">We offer a 30-day gentle guarantee. If your little one's skin doesn't love it, we will fully refund your purchase.</div></div>
+            </details>
+            <details class="faq-accordion-item" name="contact-faq">
+              <summary>Are your products tear-free?<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chevron"><polyline points="6 9 12 15 18 9"></polyline></svg></summary>
+              <div class="faq-content"><div class="faq-inner">Yes, our entire bath range is clinically tested by ophthalmologists to be completely tear-free and gentle on eyes.</div></div>
+            </details>
+            <details class="faq-accordion-item" name="contact-faq">
+              <summary>Do you ship internationally?<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chevron"><polyline points="6 9 12 15 18 9"></polyline></svg></summary>
+              <div class="faq-content"><div class="faq-inner">Currently, we ship within the US and Canada. We are working hard to expand our gentle care globally very soon!</div></div>
+            </details>
+            <details class="faq-accordion-item" name="contact-faq">
+              <summary>Do you offer samples?<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chevron"><polyline points="6 9 12 15 18 9"></polyline></svg></summary>
+              <div class="faq-content"><div class="faq-inner">While we don't offer standalone samples, all orders include a complimentary travel-size mini so you can test safely.</div></div>
+            </details>
+            <details class="faq-accordion-item" name="contact-faq">
+              <summary>What certifications do you hold?<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chevron"><polyline points="6 9 12 15 18 9"></polyline></svg></summary>
+              <div class="faq-content"><div class="faq-inner">Our products are Pediatrics Approved, EWG Verified, Hypoallergenic, and Leaping Bunny certified cruelty-free.</div></div>
+            </details>
+          </div>
+        </section>
+
+        <!-- schedule a call -->
+        <section class="schedule-call-section reveal-up">
+          <div class="schedule-card bg-cream text-center" style="padding: 40px 24px; border-radius: var(--radius-card);">
+            <div class="schedule-icon" style="margin-bottom: 24px; color: var(--cta-coral);"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></div>
+            <h3 class="tip-title">Want to speak with someone?</h3>
+            <p class="tip-excerpt" style="margin-bottom: 32px; font-size: 15px;">For urgent partnership inquiries or wholesale discussions, schedule a quick 15-minute call with our team.</p>
+            <button class="btn btn-outline" id="schedule-call-btn" aria-haspopup="dialog" aria-expanded="false">Schedule a quick call</button>
+          </div>
+        </section>
+      </div>
+
+      <!-- final cta -->
+      <section class="final-cta-band text-center reveal-up" style="margin-top: 80px; padding: 100px 0; border-top: 1px solid rgba(18,18,18,0.06);">
+        <div class="container">
+          <h2 class="editorial-heading" style="font-size: clamp(28px, 4vw, 40px); margin-bottom: 32px;">Need help picking the perfect essentials?</h2>
+          <a href="https://your-shopify.example/?utm_source=brand_site&utm_medium=contact_cta&utm_campaign=contact" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-lg pulse-hover">Shop Nubie on Shopify</a>
+        </div>
+      </section>
+
+      <!-- modal focus trap -->
+      <div class="modal-overlay" id="schedule-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="schedule-modal-title">
+        <div class="modal-container" style="max-width: 500px;">
+          <button class="modal-close" id="schedule-close-btn" aria-label="Close modal">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
+          <div class="modal-content" style="padding: 48px 32px; text-align: center;">
+            <div class="schedule-icon" style="margin: 0 auto 24px auto; color: var(--cta-coral); display: flex; justify-content: center;"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></div>
+            <h2 class="editorial-heading" id="schedule-modal-title" style="margin-bottom: 24px;">Schedule your Call</h2>
+            <p class="editorial-body" style="margin-bottom: 32px;">Integration with Calendly or a similar scheduling tool would be embedded here. For now, please use the contact form.</p>
+            <button class="btn btn-primary" style="width: 100%;" id="schedule-close-btn-bottom">Return to Contact</button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- contact toasts -->
+      <div class="toast-container" id="contact-toast-container" aria-live="polite">
+        <div class="toast" id="contact-toast">
+          <svg class="toast-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          <span class="toast-message">Message sent — we’ll reply within 48 hours</span>
+        </div>
+      </div>
+
+    </div>
+    <!-- ================= CONTACT SECTION END ================= -->
+
+  <!-- 10) Luxury Footer -->
+  <footer class="site-footer luxury-footer">
+    <div class="container footer-grid-luxury">
+      <div class="footer-col brand-col">
+        <svg class="nubie-logomark" width="100" height="30" viewBox="0 0 100 30" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Nubie Logo">
+          <text x="0" y="24" font-family="'Playfair Display', serif" font-weight="800" font-size="28" fill="#121212" letter-spacing="-1px">nubie</text>
+          <circle cx="85" cy="8" r="4" fill="#F18D7B"/>
+        </svg>
+        <p class="brand-blurb">Gentle, safe, and beautifully formulated care for tiny beginnings.</p>
+      </div>
+      
+      <div class="footer-col links-col">
+        <div class="footer-nav-grid">
+          <ul>
+            <li><a href="#hero">Home</a></li>
+            <li><a href="#products">Products</a></li>
+            <li><a href="#tips">Tips</a></li>
+          </ul>
+          <ul>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="#">FAQ</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-col contact-col text-right">
+        <a href="mailto:support@nubie.example">support@nubie.example</a>
+        <div class="social-links">
+          <a href="#" aria-label="Instagram"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></a>
+          <a href="#" aria-label="TikTok"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path></svg></a>
+          <a href="#" aria-label="Pinterest"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 12c0-4.97-4.03-9-9-9s-9 4.03-9 9c0 3.92 2.5 7.25 6 8.5-.1-.72-.19-1.8.04-2.58.21-.72 1.35-4.5 1.35-4.5s-.34-.68-.34-1.68c0-1.57.91-2.75 2.04-2.75 1.05 0 1.94.49 1.94 1.1 0 .61-.39 1.51-.59 2.35-.17.7.35 1.28 1.04 1.28 1.25 0 2.21-1.32 2.21-3.23 0-1.7-1.22-2.89-2.98-2.89-2 0-3.18 1.5-3.18 3.05 0 .6.23 1.24.52 1.6.06.07.06.13.04.22l-.17.7c-.03.1-.1.13-.21.08-1.15-.54-1.87-2.22-1.87-3.58 0-2.5 1.82-4.8 5.25-4.8 2.76 0 4.91 1.97 4.91 4.59 0 2.75-1.73 4.96-4.13 4.96-.8 0-1.56-.42-1.82-.9l-.5 1.91c-.18.69-.67 1.55-1 2.08 1.13.35 2.32.53 3.56.53 4.97 0 9-4.03 9-9z"></path></svg></a>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Custom Verified Credit Footer Area -->
+    <div class="footer-credit" style="display:flex;align-items:center;gap:12px;justify-content:center;padding:24px 12px 32px 12px;border-top:1px solid rgba(18,18,18,0.04);">
+      <div style="font-family:Inter, sans-serif;color:#6E6E6E;font-size:14px;letter-spacing:0.2px;" class="credit-text-hover">This web design by <span style="font-family:Playfair Display, serif;color:#121212;font-weight:700;">SAI CHARAN</span> — <span style="font-weight:600;color:#121212;">WITH LOVE</span></div>
+      <a href="https://www.instagram.com/_websitesdesigner_" target="_blank" rel="noopener noreferrer" aria-label="Sai Charan Instagram" class="credit-ig-bounce" style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:8px;border:1px solid rgba(18,18,18,0.06);background:#fff;text-decoration:none;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5z" stroke="#121212" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M16 11.37A4 4 0 1 1 12.63 8" stroke="#121212" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M17.5 6.5h.01" stroke="#121212" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </div>
+  </footer>
+
+  <!-- Floating Shop CTA -->
+  <a id="nubie-shop-float" href="https://your-shopify.example/?utm_source=brand_site&utm_medium=floating_cta&utm_campaign=homepage" target="_blank" rel="noopener noreferrer" aria-label="Open Nubie shop on Shopify" class="nubie-shop-float"> 
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <path d="M16 10a4 4 0 0 1-8 0"></path>
+    </svg>
+  </a> 
+  <style> 
+    .nubie-shop-float{position:fixed;right:20px;bottom:20px;width:56px;height:56px;border-radius:999px;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,#F18D7B,#F06F5A);color:#fff;box-shadow:0 12px 28px rgba(16,16,16,0.18);z-index:9999;transition:transform .18s ease} 
+    .nubie-shop-float:hover{transform:translateY(-4px)} 
+    .nubie-shop-float::after{content:"";position:absolute;width:120%;height:120%;border-radius:50%;left:-10%;top:-10%;pointer-events:none;animation:nubiePulse 2.6s infinite} 
+    @keyframes nubiePulse{0%{box-shadow:0 0 0 0 rgba(241,141,123,0.14)}70%{box-shadow:0 0 0 12px rgba(241,141,123,0)}100%{box-shadow:0 0 0 0 rgba(241,141,123,0)}} 
+    @media(max-width:520px){.nubie-shop-float{width:48px;height:48px;right:14px;bottom:14px}} 
+  </style>
+
+
+
+  <!-- =================== TIP DETAIL MODAL =================== -->
+  <div class="tip-modal-overlay" id="tipModal" role="dialog" aria-modal="true" aria-labelledby="tipModalTitle" style="display:none;">
+    <div class="tip-modal">
+      <button class="tip-modal-close" id="tipModalClose" aria-label="Close tip">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+      <div class="tip-modal-image" id="tipModalImage"></div>
+      <div class="tip-modal-body">
+        <div class="tip-modal-tag" id="tipModalTag"></div>
+        <h2 class="tip-modal-title" id="tipModalTitle"></h2>
+        <div class="tip-modal-meta" id="tipModalMeta"></div>
+        <div class="tip-modal-description" id="tipModalDesc"></div>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    /* Tip Modal Styles */
+    .tip-modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 10000;
+      background: rgba(18, 12, 5, 0.6);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .tip-modal-overlay.active {
+      opacity: 1;
+    }
+    .tip-modal {
+      background: var(--white, #fff);
+      border-radius: 20px;
+      max-width: 640px;
+      width: 100%;
+      max-height: 85vh;
+      overflow-y: auto;
+      position: relative;
+      box-shadow: 0 32px 80px rgba(18, 12, 5, 0.2);
+      transform: translateY(30px) scale(0.96);
+      transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .tip-modal-overlay.active .tip-modal {
+      transform: translateY(0) scale(1);
+    }
+    .tip-modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      z-index: 10;
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(4px);
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: #121212;
+      transition: background 0.2s ease, transform 0.2s ease;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .tip-modal-close:hover {
+      background: #fff;
+      transform: scale(1.1);
+    }
+    .tip-modal-image {
+      width: 100%;
+      height: 280px;
+      border-radius: 20px 20px 0 0;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+    .tip-modal-image::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      background: linear-gradient(to top, var(--white, #fff), transparent);
+    }
+    .tip-modal-body {
+      padding: 32px 40px 40px;
+    }
+    .tip-modal-tag {
+      display: inline-block;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      font-weight: 700;
+      color: #F18D7B;
+      background: rgba(241, 141, 123, 0.1);
+      padding: 5px 12px;
+      border-radius: 100px;
+      margin-bottom: 16px;
+    }
+    .tip-modal-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      line-height: 1.2;
+      color: #121212;
+      margin-bottom: 12px;
+    }
+    .tip-modal-meta {
+      font-size: 13px;
+      color: #8A8A8A;
+      margin-bottom: 24px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(18,18,18,0.06);
+    }
+    .tip-modal-description {
+      font-size: 16px;
+      line-height: 1.75;
+      color: #4A4A4A;
+    }
+    .tip-modal-description p {
+      margin-bottom: 16px;
+    }
+    .tip-modal-description p:last-child {
+      margin-bottom: 0;
+    }
+    .tip-modal-description strong {
+      color: #121212;
+      font-weight: 600;
+    }
+    .tip-modal-description ul {
+      margin: 12px 0 16px 20px;
+      list-style: disc;
+    }
+    .tip-modal-description li {
+      margin-bottom: 8px;
+      line-height: 1.6;
+    }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      .tip-modal {
+        max-height: 90vh;
+        border-radius: 16px;
+      }
+      .tip-modal-image {
+        height: 200px;
+        border-radius: 16px 16px 0 0;
+      }
+      .tip-modal-body {
+        padding: 24px 24px 32px;
+      }
+      .tip-modal-title {
+        font-size: 22px;
+      }
+      .tip-modal-description {
+        font-size: 15px;
+      }
+    }
+  </style>
+
+  <script>
+  (function() {
+    // Tip content database
+    const tipData = {
+      'tip-1': {
+        title: 'Navigating the First Month of Newborn Sleep',
+        image: 'images/Featured tip 1.jpg',
+        tag: 'Sleep & Comfort',
+        meta: 'By Dr. Sarah Jenkins \u2022 5 min read',
+        description: `
+          <p>The first month with your newborn can be both magical and exhausting. Understanding your baby's sleep patterns is the first step to establishing healthy habits for the whole family.</p>
+          <p><strong>Understanding Newborn Sleep Cycles</strong></p>
+          <p>Newborns sleep 14–17 hours per day, but in short bursts of 2–4 hours. Unlike adults, babies spend about 50% of their sleep in REM (active sleep), which is crucial for brain development.</p>
+          <p><strong>Creating a Calming Bedtime Routine</strong></p>
+          <ul>
+            <li><strong>Dim the lights</strong> 30 minutes before bedtime to signal it's wind-down time.</li>
+            <li><strong>Warm bath</strong> — use our Gentle Baby Shampoo with lukewarm water (37°C).</li>
+            <li><strong>Gentle massage</strong> — apply Calming Baby Lotion with slow, soothing strokes.</li>
+            <li><strong>Swaddle snugly</strong> — recreates the secure feeling of the womb.</li>
+            <li><strong>White noise</strong> — mimics the sounds baby heard in utero.</li>
+          </ul>
+          <p><strong>Safe Sleep Practices</strong></p>
+          <p>Always place your baby on their back to sleep, on a firm, flat surface with no loose bedding, pillows, or soft toys. Keep the room at a comfortable temperature (18–20°C).</p>
+          <p><strong>Remember:</strong> Every baby is different. Be patient with yourself and your little one as you both adjust to this beautiful new chapter.</p>
+        `
+      },
+      'tip-2': {
+        title: 'The Science of the Skin Barrier',
+        image: 'images/Featured tip 2.png',
+        tag: 'Skincare',
+        meta: 'By Nubie Care Experts \u2022 4 min read',
+        description: `
+          <p>Your baby's skin is up to 30% thinner than adult skin, making it more prone to dryness, irritation, and sensitivity. Understanding why helps you protect it better.</p>
+          <p><strong>Why Baby Skin Is So Delicate</strong></p>
+          <p>The outermost layer of skin (the stratum corneum) acts as a barrier, locking in moisture and keeping irritants out. In newborns, this layer is still developing and won't reach full maturity until around age 2.</p>
+          <p><strong>Common Skin Concerns</strong></p>
+          <ul>
+            <li><strong>Dryness & flaking</strong> — especially common in the first few weeks as skin adjusts to life outside the womb.</li>
+            <li><strong>Eczema-prone patches</strong> — look for red, rough areas on cheeks, elbows, and knees.</li>
+            <li><strong>Nappy rash</strong> — caused by prolonged contact with moisture. Use our Diaper Rash Cream for fast relief.</li>
+          </ul>
+          <p><strong>How to Protect Baby's Skin</strong></p>
+          <ul>
+            <li>Use only pH-balanced, fragrance-free products designed for babies.</li>
+            <li>Moisturise within 3 minutes of bathing to lock in hydration.</li>
+            <li>Avoid overwashing — 2-3 baths per week is plenty for newborns.</li>
+            <li>Choose natural fabrics (organic cotton or bamboo) for clothing and bedding.</li>
+          </ul>
+          <p>Our Calming Baby Lotion is formulated with oatmeal and chamomile to strengthen and soothe the developing skin barrier.</p>
+        `
+      },
+      'tip-3': {
+        title: 'Choosing the Right Bath Temperature',
+        image: 'images/Featured tip 3.jpg',
+        tag: 'Bath & Safety',
+        meta: 'By Dr. Alex Chen \u2022 3 min read',
+        description: `
+          <p>Bath time is one of the most beautiful bonding moments with your baby. Getting the temperature right ensures it's safe and enjoyable for everyone.</p>
+          <p><strong>The Perfect Temperature</strong></p>
+          <p>The ideal bath water temperature for babies is <strong>37°C (98.6°F)</strong> — the same as body temperature. Water that feels slightly warm to your elbow or wrist is usually just right.</p>
+          <p><strong>Step-by-Step Safe Bathing</strong></p>
+          <ul>
+            <li><strong>Fill the tub first</strong> — never add hot water while baby is in the bath.</li>
+            <li><strong>Test with your elbow</strong> — wrists can be less sensitive; your inner elbow is a better gauge.</li>
+            <li><strong>Use a thermometer</strong> — for extra peace of mind, a floating bath thermometer removes all guesswork.</li>
+            <li><strong>Keep it brief</strong> — 5–10 minutes is plenty. Longer baths can dry out baby's skin.</li>
+            <li><strong>Never leave baby unattended</strong> — not even for a second. Prepare everything you need before starting.</li>
+          </ul>
+          <p><strong>After the Bath</strong></p>
+          <p>Wrap your baby in our Hooded Baby Towel (100% organic bamboo — incredibly soft and absorbent), gently pat dry and moisturise immediately with our Calming Baby Lotion.</p>
+          <p>Bath time can be the highlight of the day when done safely and lovingly.</p>
+        `
+      }
+    };
+
+    const modal = document.getElementById('tipModal');
+    const closeBtn = document.getElementById('tipModalClose');
+
+    // Open modal
+    document.addEventListener('click', function(e) {
+      const btn = e.target.closest('.read-tip-btn');
+      if (!btn) return;
+
+      const tipId = btn.getAttribute('data-tip-id');
+      const tip = tipData[tipId];
+      if (!tip) return;
+
+      document.getElementById('tipModalImage').style.backgroundImage = 'url(' + tip.image + ')';
+      document.getElementById('tipModalTag').textContent = tip.tag;
+      document.getElementById('tipModalTitle').textContent = tip.title;
+      document.getElementById('tipModalMeta').textContent = tip.meta;
+      document.getElementById('tipModalDesc').innerHTML = tip.description;
+
+      modal.style.display = 'flex';
+      // Force reflow for animation
+      void modal.offsetWidth;
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    });
+
+    // Close modal
+    function closeTipModal() {
+      modal.classList.remove('active');
+      setTimeout(function() {
+        modal.style.display = 'none';
+        document.body.style.overflow = '';
+      }, 300);
+    }
+
+    closeBtn.addEventListener('click', closeTipModal);
+    modal.addEventListener('click', function(e) {
+      if (e.target === modal) closeTipModal();
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && modal.classList.contains('active')) closeTipModal();
+    });
+  })();
+  </script>
+
+  <script src="script.js" defer></script>
+</body>
+</html>

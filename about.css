@@ -1,0 +1,351 @@
+/* about.css - Specific styles for the About Page */
+
+/* Base & Backgrounds */
+body.about-page {
+  background-color: var(--white);
+}
+
+.bg-cream { background-color: var(--bg-cream); }
+.bg-mint { background-color: var(--mint) !important; }
+.bg-powder { background-color: var(--powder) !important; }
+.bg-coral-light { background-color: rgba(241, 141, 123, 0.15) !important; }
+
+/* Utilities */
+.elegant-divider {
+  width: 60px;
+  height: 2px;
+  background-color: var(--cta-coral);
+  margin: 24px 0;
+}
+
+/* Animations Base (Classes added via JS) */
+.reveal-up {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s var(--easing-smooth), transform 0.8s var(--easing-smooth);
+}
+.reveal-up.is-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-scale {
+  opacity: 0;
+  transform: scale(0.95);
+  transition: opacity 1s var(--easing-smooth), transform 1s var(--easing-smooth);
+}
+.reveal-scale.is-revealed {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* 1. Hero Story Section */
+.about-hero {
+  padding-top: calc(72px + 60px);
+  padding-bottom: 80px;
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+}
+
+.hero-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: center;
+}
+
+.hero-left {
+  max-width: 540px;
+}
+
+.hero-title {
+  font-family: var(--font-heading);
+  font-size: 56px;
+  line-height: 1.1;
+  color: var(--text-main);
+  margin-bottom: 24px;
+}
+
+.hero-subtext {
+  font-family: var(--font-body);
+  font-size: 18px;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 40px;
+}
+
+.hero-ctas {
+  display: flex;
+  gap: 16px;
+}
+
+.hero-image-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4/5;
+  border-radius: var(--radius-card);
+  overflow: hidden;
+}
+
+.parallax-bg {
+  position: absolute;
+  top: -10%;
+  left: -10%;
+  width: 120%;
+  height: 120%;
+  /* In reality, this would be a background-image URL */
+  background-size: cover;
+  background-position: center;
+}
+
+/* 2. Brand Story Section */
+.brand-story-section {
+  padding: 120px 0;
+}
+
+.story-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+.story-image-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1/1;
+  border-radius: var(--radius-card);
+  overflow: hidden;
+}
+
+.background-plate {
+  width: 100%;
+  height: 100%;
+}
+
+.editorial-heading {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 48px;
+  line-height: 1.2;
+  color: var(--text-main);
+}
+
+.editorial-body {
+  font-size: 18px;
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin-bottom: 24px;
+}
+
+/* 3. Brand Values Section */
+.values-section {
+  padding: 120px 0;
+}
+
+.values-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  margin-top: 64px;
+}
+
+.value-card {
+  background: var(--white);
+  padding: 40px 32px;
+  border-radius: var(--radius-card);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.03);
+  transition: transform 0.3s var(--easing-smooth), box-shadow 0.3s var(--easing-smooth);
+}
+
+.value-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.06);
+}
+
+.value-icon {
+  color: var(--cta-coral);
+  margin-bottom: 24px;
+}
+
+.value-title {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 20px;
+  margin-bottom: 12px;
+}
+
+.value-desc {
+  font-size: 15px;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* 4. Product Philosophy Section */
+.philosophy-section {
+  padding: 120px 0;
+}
+
+.philosophy-inner {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.editorial-display {
+  font-family: var(--font-heading);
+  font-size: 48px;
+  line-height: 1.2;
+  margin-bottom: 32px;
+}
+
+.philosophy-manifesto {
+  font-size: 20px;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin: 0 auto 80px auto;
+  max-width: 700px;
+}
+
+.philosophy-blocks {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+}
+
+.phil-block h4 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 24px;
+  margin-bottom: 12px;
+}
+
+.phil-block p {
+  font-size: 15px;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.phil-line {
+  display: block;
+  width: 40px;
+  height: 1px;
+  background-color: var(--text-main);
+  margin-bottom: 24px;
+  opacity: 0.2;
+}
+
+/* 5. Behind the Brand Section */
+.founder-section {
+  padding: 120px 0;
+}
+
+.founder-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+.founder-image-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3/4;
+  border-radius: var(--radius-card);
+  overflow: hidden;
+}
+
+.founder-signoff {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+}
+
+.founder-name {
+  font-family: var(--font-heading);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.founder-title {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+/* 7. Glow CTA Section */
+.glow-cta-section {
+  position: relative;
+  padding: 160px 0;
+  overflow: hidden;
+  background-color: var(--white);
+}
+
+.glow-backdrop {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80vw;
+  height: 60vh;
+  background: radial-gradient(ellipse at center, rgba(223, 247, 238, 0.6) 0%, rgba(247, 231, 231, 0.4) 40%, rgba(255, 255, 255, 0) 70%);
+  filter: blur(60px);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.glow-cta-content {
+  position: relative;
+  z-index: 2;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.glow-cta-title {
+  font-family: var(--font-heading);
+  font-size: 48px;
+  line-height: 1.2;
+  margin-bottom: 40px;
+}
+
+/* Responsive Overrides */
+@media (max-width: 1024px) {
+  .hero-title { font-size: 48px; }
+  .editorial-heading { font-size: 40px; }
+  .values-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+  .about-hero {
+    padding-top: 100px;
+    padding-bottom: 60px;
+  }
+  
+  .hero-split, .story-split, .founder-split {
+    grid-template-columns: 1fr;
+    gap: 48px;
+    text-align: center;
+  }
+  
+  .hero-left, .founder-left { margin: 0 auto; align-items: center; display: flex; flex-direction: column;}
+  .elegant-divider { margin: 24px auto; }
+  
+  .hero-ctas {
+    flex-direction: column;
+    width: 100%;
+  }
+  .hero-ctas .btn { width: 100%; }
+  
+  .values-grid, .philosophy-blocks {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  
+  .editorial-display, .glow-cta-title { font-size: 36px; }
+  .phil-line { margin: 0 auto 24px auto; }
+  
+  .founder-split {
+    /* Reverse order on mobile so image is on top */
+    display: flex;
+    flex-direction: column-reverse;
+  }
+}

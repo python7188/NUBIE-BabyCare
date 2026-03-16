@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Story | Nubie Premium Baby Care</title>
+  
+  <!-- Preconnect and Load Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Inter:wght@400;500;600&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="about.css">
+</head>
+<body class="about-page">
+
+  <!-- Sticky Header (Reused identical markup for consistency) -->
+  <header class="site-header is-scrolled" id="site-header" style="background-color: var(--white); box-shadow: 0 2px 12px rgba(0,0,0,0.03);">
+    <div class="container header-inner">
+      <a href="index.html" class="logo-link" aria-label="Nubie Homepage">
+        <span class="nubie-cursive-logo" style="color: var(--text-main); text-shadow: none;">Nubie</span>
+      </a>
+
+      <nav class="desktop-nav" aria-label="Main Navigation">
+        <ul class="nav-list">
+          <li><a href="index.html#home" class="nav-link" style="color: var(--text-muted); text-shadow:none;">Home</a></li>
+          <li><a href="index.html#products" class="nav-link" style="color: var(--text-muted); text-shadow:none;">Products</a></li>
+          <li><a href="about.html" class="nav-link active" style="color: var(--text-main); text-shadow:none;">About</a></li>
+          <li><a href="index.html#tips" class="nav-link" style="color: var(--text-muted); text-shadow:none;">Tips</a></li>
+          <li><a href="index.html#contact" class="nav-link" style="color: var(--text-muted); text-shadow:none;">Contact</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+        <a href="https://your-shopify.example/?utm_source=brand_site&utm_medium=header_about&utm_campaign=about_page" target="_blank" rel="noopener noreferrer" class="btn btn-outline" style="border-color: var(--text-main); color: var(--text-main); padding: 8px 20px; font-size: 14px;">Visit Shop</a>
+        
+        <button class="mobile-menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu" style="color: var(--text-main);">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- 1. Hero Story Section -->
+    <section class="about-hero" aria-label="About Nubie Hero Section">
+      <div class="container hero-split">
+        <div class="hero-left">
+          <h1 class="hero-title reveal-up">Made with Love for Little Beginnings</h1>
+          <p class="hero-subtext reveal-up">At Nubie, every product is designed with care, safety, and comfort in mind — because your baby deserves the gentlest start in life.</p>
+          <div class="hero-ctas reveal-up">
+            <a href="index.html#products" class="btn btn-outline">Explore Products</a>
+            <a href="https://your-shopify.example/?utm_source=brand_site&utm_medium=hero&utm_campaign=about_page" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Visit Shopify Store</a>
+          </div>
+        </div>
+        <div class="hero-right">
+          <div class="hero-image-frame reveal-scale">
+            <img src="images/About Hero (Parallax.jpg" alt="Mother and baby sharing a loving moment" class="parallax-bg" data-speed="0.05" loading="lazy">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. Brand Story Section -->
+    <section class="brand-story-section bg-cream" aria-label="Our Brand Story">
+      <div class="container story-split">
+        <div class="story-left">
+          <div class="story-image-frame reveal-scale">
+             <img src="images/Brand Story Plate.jpg" alt="Behind the scenes at Nubie" class="background-plate" loading="lazy">
+          </div>
+        </div>
+        <div class="story-right reveal-up">
+          <h2 class="editorial-heading">Our journey started with a simple belief.</h2>
+          <div class="elegant-divider"></div>
+          <p class="editorial-body">Baby care products should be safe, gentle, and thoughtfully designed. When we couldn't find skincare that met our uncompromising standards for purity without sacrificing elegance, we partnered with leading pediatricians to create our own.</p>
+          <p class="editorial-body">Every bottle, every balm, and every bundle is a promise from our family to yours: unconditional care for the moments that matter most.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Brand Values Section -->
+    <section class="values-section" aria-label="Core Values">
+      <div class="container">
+        <h2 class="section-title text-center reveal-up">The Nubie Standard</h2>
+        <div class="values-grid">
+          <div class="value-card reveal-up" style="--stagger: 0">
+            <div class="value-icon">
+              <!-- Shield Icon -->
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <h3 class="value-title">Safety First</h3>
+            <p class="value-desc">Rigorously tested formulas ensuring absolute purity for delicate immune systems.</p>
+          </div>
+          <div class="value-card reveal-up" style="--stagger: 1">
+            <div class="value-icon">
+              <!-- Feather Icon -->
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"/><line x1="16" y1="8" x2="2" y2="22"/></svg>
+            </div>
+            <h3 class="value-title">Gentle Materials</h3>
+            <p class="value-desc">Plant-based, hypoallergenic ingredients avoiding all known irritants.</p>
+          </div>
+          <div class="value-card reveal-up" style="--stagger: 2">
+            <div class="value-icon">
+              <!-- Heart Icon -->
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            </div>
+            <h3 class="value-title">Parent Trusted</h3>
+            <p class="value-desc">Engineered alongside real parents to ensure efficacy on the toughest days.</p>
+          </div>
+          <div class="value-card reveal-up" style="--stagger: 3">
+            <div class="value-icon">
+              <!-- Leaf Icon -->
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
+            </div>
+            <h3 class="value-title">Sustainable Care</h3>
+            <p class="value-desc">100% recyclable packaging utilizing bio-resins and ethical supply chains.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Product Philosophy Section -->
+    <section class="philosophy-section bg-cream" aria-label="Product Philosophy">
+      <div class="container philosophy-inner">
+        <h2 class="editorial-display text-center reveal-up">Designed for Comfort,<br>Trusted by Parents</h2>
+        <p class="philosophy-manifesto text-center reveal-up">We believe transparency is the ultimate luxury. Our philosophy rejects the notion that effective care must rely on harsh synthetics. Instead, we embrace a minimalist approach: using only what is necessary, and ensuring every single ingredient serves a calming purpose.</p>
+        
+        <div class="philosophy-blocks">
+          <div class="phil-block reveal-up" style="--stagger: 0">
+            <span class="phil-line"></span>
+            <h4>Skin-Safe Materials</h4>
+            <p>We source ultra-pure colloidal oatmeal, refined shea, and calendula to actively support the developing lipid barrier.</p>
+          </div>
+          <div class="phil-block reveal-up" style="--stagger: 1">
+            <span class="phil-line"></span>
+            <h4>Pediatrician Approved</h4>
+            <p>Every formula undergoes strict dermatological reviews to guarantee tear-free, rash-relieving results.</p>
+          </div>
+          <div class="phil-block reveal-up" style="--stagger: 2">
+            <span class="phil-line"></span>
+            <h4>Eco-Friendly Packaging</h4>
+            <p>Our soft-touch bottles are designed to look beautiful in your nursery and break down responsibly in the earth.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Behind the Brand Section -->
+    <section class="founder-section" aria-label="Behind the Brand">
+      <div class="container founder-split">
+        <div class="founder-left reveal-up">
+          <span class="eyebrow" style="color: var(--cta-coral);">Behind the Brand</span>
+          <h2 class="editorial-heading">"We wanted peace of mind, bottled."</h2>
+          <div class="elegant-divider"></div>
+          <p class="editorial-body">As new parents, the sheer volume of choices was overwhelming. The market was flooded with 'natural' products that still harbored hidden irritants, and effective products that felt clinical and harsh.</p>
+          <p class="editorial-body">Nubie was born from our desire to bridge that gap. We envisioned a brand that felt like a deep breath—a luxurious, fail-proof toolkit for parents who refuse to compromise on aesthetics or safety.</p>
+          <div class="founder-signoff">
+            <span class="founder-name">Sarah &amp; Michael Thompson</span>
+            <span class="founder-title">Founders, Nubie</span>
+          </div>
+        </div>
+        <div class="founder-right">
+          <div class="founder-image-frame reveal-scale">
+            <img src="images/Founder Photo.jpg" alt="Sarah and Michael Thompson, Founders of Nubie" class="background-plate" loading="lazy">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. Trust & Credibility Section (Reusing classes from index.html) -->
+    <div class="trust-row-wrapper" aria-label="Certifications">
+      <div class="container trust-row">
+        <div class="trust-badge">
+          <svg class="badge-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Pediatrician Approved
+        </div>
+        <div class="trust-badge">
+          <svg class="badge-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+          100% Recyclable
+        </div>
+        <div class="trust-badge">
+          <svg class="badge-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2 M9 9h.01 M15 9h.01"/></svg>
+          Hypoallergenic
+        </div>
+        <div class="trust-badge">
+          <svg class="badge-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12h4l3-9 5 18 3-9h5"/></svg>
+          Clinically Tested
+        </div>
+      </div>
+    </div>
+
+    <!-- 7. Call to Action Section (Glow) -->
+    <section class="glow-cta-section text-center" aria-label="Final Call to Action">
+      <div class="glow-backdrop"></div>
+      <div class="container glow-cta-content reveal-up">
+        <h2 class="glow-cta-title">Give Your Baby the Care They Deserve</h2>
+        <a href="https://your-shopify.example/?utm_source=brand_site&utm_medium=final_cta_about&utm_campaign=about_page" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-lg pulse-hover">Shop Nubie on Shopify</a>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer (Reused identical markup) -->
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <svg class="nubie-logomark" width="100" height="30" viewBox="0 0 100 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <text x="0" y="24" font-family="'Playfair Display', serif" font-weight="800" font-size="28" fill="#121212" letter-spacing="-1px">nubie</text>
+          <circle cx="85" cy="8" r="4" fill="#F18D7B"/>
+        </svg>
+        <p class="footer-desc">Gentle care for tiny beginnings.</p>
+      </div>
+      
+      <div class="footer-links">
+        <div class="link-column">
+          <h4>Shop</h4>
+          <ul>
+            <li><a href="index.html#products">All Products</a></li>
+            <li><a href="index.html#products">Bestsellers</a></li>
+            <li><a href="index.html#collections">Bundles</a></li>
+          </ul>
+        </div>
+        <div class="link-column">
+          <h4>Brand</h4>
+          <ul>
+            <li><a href="about.html">Our Story</a></li>
+            <li><a href="#">Ingredients</a></li>
+            <li><a href="#">Journal</a></li>
+          </ul>
+        </div>
+        <div class="link-column">
+          <h4>Support</h4>
+          <ul>
+            <li><a href="#">FAQ</a></li>
+            <li><a href="#">Shipping</a></li>
+            <li><a href="#">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <p>&copy; 2026 Nubie Care. All rights reserved.</p>
+      <a href="https://your-shopify.example/?utm_source=brand_site&utm_medium=footer&utm_campaign=about_page" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">Visit Shopify</a>
+    </div>
+  </footer>
+
+  <!-- Floating Shop CTA (Reused) -->
+  <a id="nubie-shop-float" href="https://your-shopify.example/?utm_source=brand_site&utm_medium=floating_cta_about&utm_campaign=about_page" target="_blank" rel="noopener noreferrer" aria-label="Open Nubie shop on Shopify" class="nubie-shop-float"> 
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <path d="M16 10a4 4 0 0 1-8 0"></path>
+    </svg>
+  </a> 
+  <style> 
+    .nubie-shop-float{position:fixed;right:20px;bottom:20px;width:56px;height:56px;border-radius:999px;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,#F18D7B,#F06F5A);color:#fff;box-shadow:0 12px 28px rgba(16,16,16,0.18);z-index:9999;transition:transform .18s ease} 
+    .nubie-shop-float:hover{transform:translateY(-4px)} 
+    .nubie-shop-float::after{content:"";position:absolute;width:120%;height:120%;border-radius:50%;left:-10%;top:-10%;pointer-events:none;animation:nubiePulse 2.6s infinite} 
+    @keyframes nubiePulse{0%{box-shadow:0 0 0 0 rgba(241,141,123,0.14)}70%{box-shadow:0 0 0 12px rgba(241,141,123,0)}100%{box-shadow:0 0 0 0 rgba(241,141,123,0)}} 
+    @media(max-width:520px){.nubie-shop-float{width:48px;height:48px;right:14px;bottom:14px}} 
+  </style>
+
+  <!-- Scripts -->
+  <script src="script.js" defer></script>
+  <script src="about.js" defer></script>
+</body>
+</html>
